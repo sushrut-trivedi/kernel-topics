@@ -645,10 +645,11 @@ static int ucsi_ccg_sync_control(struct ucsi *ucsi, u64 command, u32 *cci,
 		}
 		break;
 	case UCSI_GET_CAPABILITY:
+		struct ucsi_capability *cap = data;
 		if (uc->fw_build == CCG_FW_BUILD_NVIDIA_TEGRA) {
-			struct ucsi_capability *cap = data;
-
 			cap->features &= ~UCSI_CAP_ALT_MODE_DETAILS;
+		} else {
+			cap->features &= ~UCSI_CAP_PDO_DETAILS;
 		}
 		break;
 	default:
@@ -1447,6 +1448,8 @@ static int ucsi_ccg_probe(struct i2c_client *client)
 			uc->fw_build = CCG_FW_BUILD_NVIDIA_TEGRA;
 		else if (!strcmp(fw_name, "nvidia,gpu"))
 			uc->fw_build = CCG_FW_BUILD_NVIDIA;
+		else if (!strcmp(fw_name, "ccg_primary.cyacd2"))
+			uc->fw_build = 0;
 		if (!uc->fw_build)
 			dev_err(uc->dev, "failed to get FW build information\n");
 	}
@@ -1519,6 +1522,7 @@ static void ucsi_ccg_remove(struct i2c_client *client)
 
 static const struct of_device_id ucsi_ccg_of_match_table[] = {
 		{ .compatible = "cypress,cypd4226", },
+		{ .compatible = "cypress,cypd6129", },
 		{ /* sentinel */ }
 };
 MODULE_DEVICE_TABLE(of, ucsi_ccg_of_match_table);
