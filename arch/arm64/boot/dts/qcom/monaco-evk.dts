@@ -681,14 +681,14 @@
 	vccq-supply = <&vreg_l4c>;
 	vccq-max-microamp = <1200000>;
 
-	status = "okay";
+	//status = "okay";
 };
 
 &ufs_mem_phy {
 	vdda-phy-supply = <&vreg_l4a>;
 	vdda-pll-supply = <&vreg_l5a>;
 
-	status = "okay";
+	//status = "okay";
 };
 
 &usb_1 {
