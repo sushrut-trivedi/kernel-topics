@@ -296,8 +296,11 @@
 /* USB1 HS */
 &usb_2 {
 	dr_mode = "host";
-
 	status = "okay";
+};
+
+&refgen{
+	regulator-always-on;
 };
 
 &usb_2_hsphy {
