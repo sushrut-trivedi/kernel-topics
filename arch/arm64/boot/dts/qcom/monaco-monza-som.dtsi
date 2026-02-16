@@ -156,6 +156,16 @@
 	};
 };
 
+&mdss_dp0 {
+	pinctrl-0 = <&dp_hot_plug_det>;
+	pinctrl-names = "default";
+};
+
+&mdss_dp0_phy {
+	vdda-phy-supply = <&vreg_l5a>;
+	vdda-pll-supply = <&vreg_l4a>;
+};
+
 &mdss_dsi0 {
 	vdda-supply = <&vreg_l5a>;
 };
@@ -258,10 +268,8 @@
 
 /* USB0 HS + SS */
 &usb_1 {
-	dr_mode = "peripheral";
 	maximum-speed = "super-speed-plus";
 	usb-role-switch;
-	dr_mode = "otg";
 	wakeup-source;
 
 	status = "okay";

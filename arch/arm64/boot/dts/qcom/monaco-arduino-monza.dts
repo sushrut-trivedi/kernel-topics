@@ -167,19 +167,6 @@
 	};
 };
 
-&mdss_dsi0 {
-	status = "okay";
-};
-
-&mdss_dsi0_out {
-	remote-endpoint = <&adv7535_in>;
-	data-lanes = <0 1 2 3>;
-};
-
-&mdss_dsi0_phy {
-	status = "okay";
-};
-
 &ethernet0 {
 	phy-mode = "sgmii"; /* Should be phy-mode = "2500base-x", but cf https://lists.infradead.org/pipermail/linux-arm-kernel/2025-November/1077340.html */
 	phy-handle = <&hsgmii_phy0>;
@@ -273,6 +260,8 @@
 	typec@8 {
 		compatible = "cypress,cypd6129";
 		reg = <0x08>;
+		pinctrl-0 = <&usbc_default_state>;
+		pinctrl-names = "default";
 		interrupts-extended = <&tlmm 3 IRQ_TYPE_LEVEL_LOW>;
 		#address-cells = <1>;
 		#size-cells = <0>;
@@ -364,12 +353,24 @@
 &mdss_dp0_out {
 	data-lanes = <0 1 2 3>;
 	link-frequencies = /bits/ 64 <1620000000 2700000000 5400000000 8100000000>;
+
+	/* Connected to cypd6129 whith routing of HPD to GPIO94 */
 };
 
 &mdss_dp0_phy {
-	vdda-phy-supply = <&vreg_l5a>;
-	vdda-pll-supply = <&vreg_l4a>;
+	status = "okay";
+};
 
+&mdss_dsi0 {
+	status = "okay";
+};
+
+&mdss_dsi0_out {
+	remote-endpoint = <&adv7535_in>;
+	data-lanes = <0 1 2 3>;
+};
+
+&mdss_dsi0_phy {
 	status = "okay";
 };
 
@@ -458,6 +459,12 @@
 			drive-strength = <2>;
 			bias-pull-up;
 		};
+	};
+
+	usbc_default_state: usbc-default-state {
+		pins = "gpio3";
+		function = "gpio";
+		bias-disable;
 	};
 
        	ethernet0_default: ethernet0-default-state {
