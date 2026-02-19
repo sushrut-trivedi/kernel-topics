@@ -73,6 +73,7 @@ allOf:
       properties:
         clocks:
           items:
+            - description: aggre UFS PHY AXI clock
             - description: aggre USB3 PRIM AXI clock
 
   - if:
